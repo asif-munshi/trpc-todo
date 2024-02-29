@@ -2,6 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 import { cn } from '@/lib/utils';
+import Navbar from '@/components/layout/navbar';
+import { ThemeProvider } from '@/components/layout/theme-provider';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -19,14 +21,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased',
+          'flex min-h-screen flex-col bg-background font-sans antialiased',
           fontSans.variable,
         )}
       >
-        <main>{children}</main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          <main>{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );
