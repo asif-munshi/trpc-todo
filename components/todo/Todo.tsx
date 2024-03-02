@@ -1,3 +1,6 @@
+'use client';
+
+import { trpc } from '@/app/_trpc/client';
 import {
   Card,
   CardDescription,
@@ -16,6 +19,8 @@ interface TodoProps {
 }
 
 const Todo: React.FC<TodoProps> = ({ todos }) => {
+  const getTodos = trpc.todo.getTodos.useQuery();
+
   return (
     <>
       {todos.map((todo) => (
@@ -23,6 +28,7 @@ const Todo: React.FC<TodoProps> = ({ todos }) => {
           <CardHeader className="p-4">
             <CardTitle>{todo.title}</CardTitle>
             <CardDescription>{todo.description}</CardDescription>
+            <CardDescription>{JSON.stringify(getTodos.data)}</CardDescription>
           </CardHeader>
         </Card>
       ))}
