@@ -1,9 +1,14 @@
-import { Button } from '@/components/ui/button';
+import Todo from '@/components/todo/Todo';
 
-export default function HomePage() {
+const todos = [
+  { id: 1, title: 'Todo Title 1', description: 'Todo Description 1' },
+  { id: 2, title: 'Todo Title 2', description: 'Todo Description 2' },
+];
+
+export default async function HomePage() {
   return (
-    <div className="flex h-full flex-col items-center justify-between p-24">
-      <Button>Click me</Button>
+    <div className="grid h-full grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:mx-auto lg:max-w-screen-xl lg:grid-cols-3 xl:grid-cols-4 xl:px-0">
+      <Todo todos={todos} />
     </div>
   );
 }
