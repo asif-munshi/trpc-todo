@@ -7,7 +7,7 @@ const todos = [
 
 export default async function HomePage() {
   return (
-    <div className="grid h-full grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:mx-auto lg:max-w-screen-xl lg:grid-cols-3 xl:grid-cols-4 xl:px-0">
+    <div className="grid h-full max-w-[1485px] grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:mx-auto lg:grid-cols-3 2xl:grid-cols-4">
       <Todo todos={todos} />
     </div>
   );
