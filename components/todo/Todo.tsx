@@ -8,18 +8,12 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-interface Todo {
-  id: number;
-  title: string;
-  description: string;
-}
+const Todo = () => {
+  const { data: todos, isLoading } = trpc.todo.getAll.useQuery();
 
-interface TodoProps {
-  todos: Todo[];
-}
+  if (isLoading) return <div>Loading...</div>;
 
-const Todo: React.FC<TodoProps> = ({ todos }) => {
-  const getTodos = trpc.todo.getTodos.useQuery();
+  if (!todos?.length) return <div className="w-full text-center">No Todos</div>;
 
   return (
     <>
@@ -28,7 +22,6 @@ const Todo: React.FC<TodoProps> = ({ todos }) => {
           <CardHeader className="p-4">
             <CardTitle>{todo.title}</CardTitle>
             <CardDescription>{todo.description}</CardDescription>
-            <CardDescription>{JSON.stringify(getTodos.data)}</CardDescription>
           </CardHeader>
         </Card>
       ))}

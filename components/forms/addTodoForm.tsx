@@ -3,6 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useRouter } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { trpc } from '@/app/_trpc/client';
+import { TodoValidator, TTodoValidator } from '@/lib/todo-validator';
 
 const formSchema = z
   .object({
@@ -26,16 +29,31 @@ const formSchema = z
   });
 
 const AddTodoForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const router = useRouter();
+
+  const form = useForm<TTodoValidator>({
+    resolver: zodResolver(TodoValidator),
     defaultValues: {
       title: '',
       description: '',
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  const { mutate: addTodo } = trpc.todo.add.useMutation({
+    onSuccess: () => {
+      //toast.success('Signed in successfully')
+      router.refresh();
+    },
+    onError: (err) => {
+      if (err.data?.code === 'UNAUTHORIZED') {
+        //toast.error('Invalid email or password')
+        console.error('Invalid email or password');
+      }
+    },
+  });
+
+  function onSubmit(values: TTodoValidator) {
+    addTodo(values);
     form.reset({
       title: '',
       description: '',
