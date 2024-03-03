@@ -2,8 +2,6 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useRouter } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -19,17 +17,8 @@ import {
 import { trpc } from '@/app/_trpc/client';
 import { TodoValidator, TTodoValidator } from '@/lib/todo-validator';
 
-const formSchema = z
-  .object({
-    title: z.string().min(1, { message: 'Title Required' }).max(255),
-    description: z.string(),
-  })
-  .required({
-    title: true,
-  });
-
 const AddTodoForm = () => {
-  const router = useRouter();
+  const utils = trpc.useUtils();
 
   const form = useForm<TTodoValidator>({
     resolver: zodResolver(TodoValidator),
@@ -41,12 +30,12 @@ const AddTodoForm = () => {
 
   const { mutate: addTodo } = trpc.todo.add.useMutation({
     onSuccess: () => {
-      //toast.success('Signed in successfully')
-      router.refresh();
+      //toast.success('Signed in successfully');
+      utils.todo.getAll.invalidate();
     },
     onError: (err) => {
       if (err.data?.code === 'UNAUTHORIZED') {
-        //toast.error('Invalid email or password')
+        //toast.error('Invalid email or password');
         console.error('Invalid email or password');
       }
     },
@@ -72,7 +61,7 @@ const AddTodoForm = () => {
               <FormControl>
                 <Input
                   placeholder="Why react sucks?"
-                  className="focus-visible:ring-offset-0"
+                  className="drop-shadow-sm focus-visible:ring-offset-0"
                   {...field}
                 />
               </FormControl>
@@ -90,7 +79,7 @@ const AddTodoForm = () => {
               <FormControl>
                 <Textarea
                   placeholder="Because it sucks?"
-                  className="resize-none focus-visible:ring-offset-0"
+                  className="resize-none drop-shadow-sm focus-visible:ring-offset-0"
                   {...field}
                 />
               </FormControl>

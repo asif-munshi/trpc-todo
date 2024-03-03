@@ -8,6 +8,7 @@ import { TodoValidator } from '@/lib/todo-validator';
 const defaultTodoSelect = {
   id: true,
   title: true,
+  status: true,
   description: true,
   createdAt: true,
   updatedAt: true,
