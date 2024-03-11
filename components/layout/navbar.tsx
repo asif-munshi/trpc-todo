@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 import {
@@ -16,27 +17,45 @@ import {
 import { ModeToggle } from './mode-toggle';
 
 const Navbar = () => {
+  const pathname = usePathname();
+
   return (
     <div className="sticky flex h-12 w-full items-center justify-center">
       <NavigationMenu className="h-full w-full" style={{ width: '1200px' }}>
         <NavigationMenuList>
+          {/* Home Route */}
           <NavigationMenuItem>
             <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink
+                className={cn(
+                  'group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50',
+                  {
+                    'bg-green-600 text-white hover:bg-green-600 focus:bg-green-600 focus:text-white':
+                      pathname.match(/^[/]$/),
+                  },
+                )}
+              >
                 Todo
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-
           {/* Add Todo Route */}
           <NavigationMenuItem>
             <Link href="/add" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink
+                className={cn(
+                  'group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50',
+                  {
+                    'bg-green-600 text-white hover:bg-green-600 focus:bg-green-600 focus:text-white':
+                      pathname.match('/add'),
+                  },
+                )}
+              >
                 Add
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-
+          {/* Mode Toggle Button */}
           <NavigationMenuItem>
             <ModeToggle />
           </NavigationMenuItem>
