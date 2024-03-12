@@ -1,4 +1,10 @@
+import type { Metadata } from 'next';
 import AddTodoForm from '@/components/forms/addTodoForm';
+
+export const metadata: Metadata = {
+  title: 'Add - Todo',
+  description: 'Created by Asif Munshi',
+};
 
 export default function AddPage() {
   return (

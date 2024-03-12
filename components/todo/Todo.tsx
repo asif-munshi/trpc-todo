@@ -4,12 +4,18 @@ import { Trash } from 'lucide-react';
 import { trpc } from '@/app/_trpc/client';
 
 import { cn } from '@/lib/utils';
+import LoadingSkeleton from './LoadingSkeleton';
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+
+const NUMBER_OF_SKELETONS = 4;
+const cards = Array.from({ length: NUMBER_OF_SKELETONS }, (_, i) => (
+  <LoadingSkeleton key={i} />
+));
 
 const Todo = () => {
   const utils = trpc.useUtils();
@@ -25,7 +31,7 @@ const Todo = () => {
     deleteTodo({ id: id });
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <>{cards}</>;
 
   if (!todos?.length) return <div className="w-full text-center">No Todos</div>;
 
