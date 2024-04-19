@@ -1,0 +1,17 @@
+# Ignore artifacts:
+build
+coverage
+.vscode
+
+# Ignore all HTML files:
+**/*.html
+
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+
+**/lib
+/components/ui
+tailwind.config.ts
+components.json
