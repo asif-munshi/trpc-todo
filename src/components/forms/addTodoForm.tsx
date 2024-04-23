@@ -88,7 +88,7 @@ const AddTodoForm = () => {
           )}
         />
         <div className="flex justify-end">
-          <Button type="submit" className="rounded-full">
+          <Button type="submit" className="rounded-full text-white">
             Add Todo
           </Button>
         </div>

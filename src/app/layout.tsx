@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
+import Provider from "./_trpc/Provider";
 import Navbar from "@/components/layout/navbar";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 
@@ -35,8 +36,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main>{children}</main>
+          <Provider>
+            <Navbar />
+            <main>{children}</main>
+          </Provider>
         </ThemeProvider>
       </body>
     </html>
